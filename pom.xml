@@ -37,6 +37,24 @@
           <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>1.17.0</version>
+        <configuration>
+          <java>
+            <licenseHeader>
+              <file>${basedir}/spotless.license</file>
+            </licenseHeader>
+            <googleJavaFormat>
+              <!-- Optional, available versions: GOOGLE, AOSP  https://github.com/google/google-java-format/blob/master/core/src/main/java/com/google/googlejavaformat/java/JavaFormatterOptions.java -->
+              <style>GOOGLE</style>
+            </googleJavaFormat>
+            <removeUnusedImports/>
+          </java>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
