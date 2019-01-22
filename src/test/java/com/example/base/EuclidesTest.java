@@ -6,7 +6,6 @@
 package com.example.base;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.testng.annotations.BeforeTest;
@@ -37,18 +36,6 @@ public class EuclidesTest {
 
     for (int[] aCase : cases) {
       ensureCorrect(aCase);
-    }
-  }
-
-  @Test
-  public void testNegativeCases() {
-    int[][] cases = {{0, 0, 0}}; // leaving this just to show that the test does fail
-
-    for (int[] aCase : cases) {
-      assertThat(
-          String.format("%d -- %d", aCase[0], aCase[1]),
-          e.euclid(aCase[0], aCase[1]),
-          not(equalTo(aCase[2])));
     }
   }
 

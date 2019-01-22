@@ -41,9 +41,11 @@ public class Euclides {
     int div = a / b;
     int diff = a - (b * div);
 
+    System.out.println(String.format("%d = %d X %d + %d", a, div, b, diff));
+
     if (diff == 0) {
       return b;
     }
-    return 0;
+    return euclid(b, div);
   }
 }
