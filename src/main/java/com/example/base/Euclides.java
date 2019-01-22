@@ -46,6 +46,6 @@ public class Euclides {
     if (diff == 0) {
       return b;
     }
-    return euclid(b, div);
+    return euclid(b, diff);
   }
 }

@@ -8,9 +8,16 @@ package com.example.base;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.example.base.EuclidesTest.TestLogger;
+import java.util.Arrays;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.ITestResult;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners(TestLogger.class)
 public class EuclidesTest {
 
   Euclides e;
@@ -31,12 +38,10 @@ public class EuclidesTest {
   public void testPositiveCases() {
     int[][] cases = {
         {936, 299, 13},
-        {0, 0, 999} // leaving this just to show that the test does fail
+        {34, 36, 2}
     };
 
-    for (int[] aCase : cases) {
-      ensureCorrect(aCase);
-    }
+    ensureCorrect(cases);
   }
 
   @Test
@@ -45,7 +50,13 @@ public class EuclidesTest {
         {666, 1, 1},
         {1, 666, 1}};
 
-    for (int[] aCase : cases) {
+    ensureCorrect(cases);
+  }
+
+  private void ensureCorrect(int[][] cases) {
+    for (int i = 0; i < cases.length; i++) {
+      int[] aCase = cases[i];
+      System.out.println(String.format("---=== %d. %s ===---", (i + 1), Arrays.toString(aCase)));
       ensureCorrect(aCase);
     }
   }
@@ -55,5 +66,19 @@ public class EuclidesTest {
         String.format("%d -- %d", aCase[0], aCase[1]),
         e.euclid(aCase[0], aCase[1]),
         equalTo(aCase[2]));
+  }
+
+  public static class TestLogger implements IInvokedMethodListener {
+
+    @Override
+    public void beforeInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
+      System.out.println(String.format("\n---===### Testing: %s ###===---",
+          iInvokedMethod.getTestMethod().getMethodName()));
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
+      // do nothing
+    }
   }
 }
