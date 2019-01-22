@@ -8,14 +8,47 @@
   <artifactId>base</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
   </properties>
 
   <build>
+
+    <filters>
+      <filter>personal.properties</filter>
+    </filters>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>spotless.license</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
     <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${basedir}/personal.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -45,7 +78,7 @@
         <configuration>
           <java>
             <licenseHeader>
-              <file>${basedir}/spotless.license</file>
+              <file>${project.build.directory}/classes/spotless.license</file>
             </licenseHeader>
             <googleJavaFormat>
               <!-- Optional, available versions: GOOGLE, AOSP  https://github.com/google/google-java-format/blob/master/core/src/main/java/com/google/googlejavaformat/java/JavaFormatterOptions.java -->
@@ -54,7 +87,67 @@
             <removeUnusedImports/>
           </java>
         </configuration>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>apply</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <excludes>
+            <exclude>**/spotless.*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-zip</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>rename-file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <sourceFile>target/${build.finalName}-final-zip.zip</sourceFile>
+              <destinationFile>
+                target/${personal.courseId}-${personal.homeworkId}-${personal.id}.zip
+              </destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

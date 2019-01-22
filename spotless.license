@@ -1,5 +1,5 @@
 /*
- *  Name: First Last
- *  ID: 0123456789
+ *  Name: ${personal.firstName} ${personal.lastName}
+ *  ID: ${personal.id}
  */
 

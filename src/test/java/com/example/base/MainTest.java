@@ -1,5 +1,5 @@
 /*
- *  Name: First Last
+ *  Name: firstName lastName
  *  ID: 0123456789
  */
 
