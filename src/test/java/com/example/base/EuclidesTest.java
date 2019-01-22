@@ -36,10 +36,7 @@ public class EuclidesTest {
     };
 
     for (int[] aCase : cases) {
-      assertThat(
-          String.format("%d -- %d", aCase[0], aCase[1]),
-          e.euclid(aCase[0], aCase[1]),
-          equalTo(aCase[2]));
+      ensureCorrect(aCase);
     }
   }
 
@@ -53,5 +50,23 @@ public class EuclidesTest {
           e.euclid(aCase[0], aCase[1]),
           not(equalTo(aCase[2])));
     }
+  }
+
+  @Test
+  public void testStoppingConditions() {
+    int[][] cases = {
+        {666, 1, 1},
+        {1, 666, 1}};
+
+    for (int[] aCase : cases) {
+      ensureCorrect(aCase);
+    }
+  }
+
+  private void ensureCorrect(int[] aCase) {
+    assertThat(
+        String.format("%d -- %d", aCase[0], aCase[1]),
+        e.euclid(aCase[0], aCase[1]),
+        equalTo(aCase[2]));
   }
 }

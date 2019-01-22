@@ -25,7 +25,25 @@ public class Euclides {
     System.out.println(new Euclides().euclid(input[0], input[1]));
   }
 
+  /**
+   * Computes greatest common divider.
+   *
+   * @param a first integer
+   * @param b second integer
+   * @return greatest common divider of <a, b>
+   */
   public int euclid(int a, int b) {
+    // let's ensure that a is bigger:
+    if (a < b) {
+      return euclid(b, a);
+    }
+
+    int div = a / b;
+    int diff = a - (b * div);
+
+    if (diff == 0) {
+      return b;
+    }
     return 0;
   }
 }
